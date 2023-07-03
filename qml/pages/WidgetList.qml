@@ -9,6 +9,8 @@ Page {
 
     ListModel { id: widgetList }
 
+    property string widgetPageName;
+
     // To enable PullDownMenu, place our content in a SilicaFlickable
     SilicaFlickable {
         anchors.fill: parent
@@ -41,7 +43,7 @@ Page {
             id: view
 
             header: PageHeader {
-                title: "TODO"
+                title: widgetPageName
             }
 
             ViewPlaceholder {
@@ -110,7 +112,9 @@ Page {
             console.log(sitemapUrl);
             widgetList.clear();
             request(sitemapUrl, "get", "", function(doc) {
-                var e = JSON.parse(doc.responseText).widgets;
+                var json = JSON.parse(doc.responseText);
+                widgetPageName = json.title;
+                var e = json.widgets;
                 widgetList.clear();
                 for(var i = 0; i < e.length; i++) {
                     var tl = e[i];
