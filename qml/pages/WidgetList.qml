@@ -61,9 +61,23 @@ Page {
             width: parent.width
             height: parent.height
             model: widgetList
-            delegate: ListItem {
+            delegate: delegateItem
+
+            Component.onCompleted: {
+                getWidgetsFromSitemap(sitemapUrl);
+            }
+        }
+    }
+
+    Component {
+        id: delegateItem
+
+        Loader {
+            // Can't be referred with an ID, as the context would be missing:
+            // https://doc.qt.io/qt-6/qml-qtquick-loader.html#using-a-loader-within-a-view-delegate
+            sourceComponent: ListItem {
                 id: listItem
-                width: ListView.view.width
+                width: view.width
                 contentHeight: Theme.itemSizeSmall
                 ListView.onRemove: animateRemoval(listItem)
                 menu: contextMenu
@@ -115,10 +129,6 @@ Page {
                         }
                     }
                 }
-
-            }
-            Component.onCompleted: {
-                getWidgetsFromSitemap(sitemapUrl);
             }
         }
     }
