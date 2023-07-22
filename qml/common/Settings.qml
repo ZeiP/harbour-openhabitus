@@ -7,4 +7,8 @@ ConfigurationGroup {
     path: "/apps/harbour-openhabitus"
 
     property string base_url
+
+    property bool no_remorse
+
+    property bool no_success_notifications
 }

@@ -11,6 +11,8 @@ Page {
 
     property string widgetPageName;
 
+    property string sitemapUrl: "";
+
     // To enable PullDownMenu, place our content in a SilicaFlickable
     SilicaFlickable {
         anchors.fill: parent
@@ -18,13 +20,17 @@ Page {
         // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
         PullDownMenu {
             MenuItem {
+                text: qsTr("About")
+                onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
+            }
+            MenuItem {
                 text: qsTr("Settings")
                 onClicked: pageStack.push(Qt.resolvedUrl("SettingsPage.qml"))
             }
             MenuItem {
                 text: qsTr("Refresh")
                 onClicked: {
-                    getWidgetsFromSitemap();
+                    getWidgetsFromSitemap(sitemapUrl);
                 }
             }
         }
@@ -49,6 +55,7 @@ Page {
             ViewPlaceholder {
                 enabled: widgetList.count == 0
                 text: qsTr("No widgets")
+                hintText: qsTr("Check your settings")
             }
 
             width: parent.width
@@ -62,17 +69,20 @@ Page {
                 menu: contextMenu
 
                 function setValue(value) {
-                    remorseAction(qsTr("Setting value to %1").arg(value), function() {
+                    if (!settings.no_remorse) {
+                        remorseAction(qsTr("Setting value to %1").arg(value), function() {
+                            var item = view.model.get(index);
+                            if (item.link) {
+                                setWidgetValue(item.link, value, messageNotification);
+                            }
+                        })
+                    }
+                    else {
                         var item = view.model.get(index);
-                        setWidgetValue(item.link, value, messageNotification);
-                    })
-                }
-
-                function toggle() {
-                    remorseAction(qsTr("Toggling the state"), function() {
-                        var item = view.model.get(index);
-                        toggleWidget(item.link, item.widgetState, messageNotification);
-                    })
+                        if (item.link) {
+                            setWidgetValue(item.link, value, messageNotification);
+                        }
+                    }
                 }
 
                 Label {
@@ -84,6 +94,13 @@ Page {
                     anchors.right: parent.right
                     font.pixelSize: Theme.fontSizeSmall
                     text: widgetState
+                }
+
+                onClicked: {
+                    var item = view.model.get(index);
+                    if (item.targetSitemap) {
+                        pageStack.push(Qt.resolvedUrl("WidgetList.qml"), {sitemapUrl: item.targetSitemap})
+                    }
                 }
 
                 Component {
@@ -101,49 +118,85 @@ Page {
 
             }
             Component.onCompleted: {
-                getWidgetsFromSitemap();
+                getWidgetsFromSitemap(sitemapUrl);
             }
         }
     }
 
-    function getWidgetsFromSitemap() {
-        request("rest/sitemaps", "get", "", function(doc) {
-            var sitemapUrl = JSON.parse(doc.responseText)[0].homepage.link;
-            console.log(sitemapUrl);
+    function getWidgetsFromSitemap(url) {
+        if (url == "") {
+            if (rootSitemap == "") {
+                request("rest/sitemaps", "get", "", function(doc) {
+                    rootSitemap = JSON.parse(doc.responseText)[0].homepage.link;
+                    getWidgetsFromSitemap(rootSitemap);
+                });
+                return;
+            }
+            url = rootSitemap;
+        }
+        widgetList.clear();
+        console.log(url);
+        request(url, "get", "", function(doc) {
+            var json = JSON.parse(doc.responseText);
+            widgetPageName = json.title;
+            var e = json.widgets;
             widgetList.clear();
-            request(sitemapUrl, "get", "", function(doc) {
-                var json = JSON.parse(doc.responseText);
-                widgetPageName = json.title;
-                var e = json.widgets;
-                widgetList.clear();
-                for(var i = 0; i < e.length; i++) {
-                    var tl = e[i];
+            for(var i = 0; i < e.length; i++) {
+                var tl = e[i];
 
-                    // Only handle switches for now.
-                    if (tl.type != "Switch") {
-                        continue;
-                    }
+                if ((!tl.item || !tl.item.state) && (!tl.linkedPage || !tl.linkedPage.link)) {
+                    console.log("Skipping");
+                    continue;
+                }
 
-                    var item = {}
-                    item.name = tl.label;
-                    item.type = tl.type;
-                    item.link = tl.item.link;
+                var item = {}
+                item.name = tl.label;
+                item.type = tl.type;
+                if (tl.item && tl.item.state) {
                     item.widgetState = tl.item.state;
-                    item.mappings = tl.mappings;
-    //                console.log(JSON.stringify(item.mappings));
-                    if (item.mappings.length == 0) {
-                        if (item.widgetState == "ON") {
+
+                    // Selection widgets have a display mapping in stateDescription.
+                    if (tl.item.stateDescription) {
+                        for(var j = 0; j < tl.item.stateDescription.options.length; j++) {
+                            if (tl.item.stateDescription.options[j].value == tl.item.state) {
+                                item.widgetState = tl.item.stateDescription.options[j].label;
+                                break;
+                            }
+                        }
+                    }
+                }
+                else {
+                    item.widgetState = qsTr("Group");
+                }
+                if (tl.linkedPage && tl.linkedPage.link) {
+                    item.targetSitemap = tl.linkedPage.link;
+                }
+
+                item.mappings = [];
+
+                if (tl.type == "Switch" || tl.type == "Selection") {
+                    item.link = tl.item.link;
+                    if (tl.mappings && tl.mappings.length > 0) {
+                        item.mappings = tl.mappings;
+                    }
+                    else if (tl.item.commandDescription && tl.item.commandDescription.commandOptions) {
+                        item.mappings = tl.item.commandDescription.commandOptions;
+                    }
+                    else if (tl.item.state) {
+                        if (tl.item.state == "ON") {
                             item.mappings = [ {label: "OFF", command: "OFF"} ];
                         }
                         else {
                             item.mappings = [ {label: "ON", command: "ON"} ];
                         }
                     }
-
-                    widgetList.append(item);
                 }
-            });
+//                console.log(JSON.stringify(item.mappings));
+
+                widgetList.append(item);
+            }
         });
+
     }
 
     function setWidgetValue(link, state) {
@@ -152,17 +205,21 @@ Page {
             console.log(doc.status);
             var m = messageNotification.createObject(null);
             if (doc.status === 200 || doc.status === 202) {
-                m.body = qsTr("Widget status successfully set to %1.").arg(state);
-                m.summary = qsTr("Widget status toggled")
+                if (!settings.no_success_notifications) {
+                    m.body = qsTr("Widget status successfully set to %1.").arg(state);
+                    m.summary = qsTr("Widget status set")
+                }
             }
             else {
                 m.body = qsTr("Widget status not set to %1.").arg(state);
-                m.summary = qsTr("Widget status toggle fail")
+                m.summary = qsTr("Widget status change failed")
             }
-            m.previewSummary = m.summary
-            m.previewBody = m.body
-            m.publish()
-            getWidgetsFromSitemap()
+            if (m.body) {
+                m.previewSummary = m.summary
+                m.previewBody = m.body
+                m.publish()
+            }
+            getWidgetsFromSitemap(sitemapUrl)
         }, messageNotification);
     }
 

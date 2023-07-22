@@ -5,116 +5,116 @@
     <name>AboutPage</name>
     <message>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Tietoja</translation>
     </message>
     <message>
         <source>Openhabitus</source>
-        <translation type="unfinished"></translation>
+        <translation>Openhabitus</translation>
     </message>
     <message>
         <source>Openhabitus is a client application for controlling an OpenHAB-compatible home automation system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Openhabitus on sovellus, jolla voit ohjata OpenHAB-yhteensopivaa kotiautomaatiojärjestelmää.</translation>
     </message>
     <message>
         <source>Thanking:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kiitokset:</translation>
     </message>
     <message>
         <source>– Jyri-Petteri ”ZeiP” Paloposki (author)</source>
-        <translation type="unfinished"></translation>
+        <translation>– Jyri-Petteri ”ZeiP” Paloposki (tekijä)</translation>
     </message>
     <message>
         <source>GitHub (source codes and issues)</source>
-        <translation type="unfinished"></translation>
+        <translation>GitHub (lähdekoodi ja virheraportit)</translation>
     </message>
     <message>
         <source>OpenHAB project</source>
-        <translation type="unfinished"></translation>
+        <translation>OpenHAB-projekti</translation>
     </message>
 </context>
 <context>
     <name>CoverPage</name>
     <message>
         <source>Openhabitus</source>
-        <translation type="unfinished"></translation>
+        <translation>Openhabitus</translation>
     </message>
 </context>
 <context>
     <name>SettingsPage</name>
     <message>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Tallenna</translation>
     </message>
     <message>
         <source>OpenHAB base URL</source>
-        <translation type="unfinished"></translation>
+        <translation>OpenHABin juuren URL</translation>
     </message>
     <message>
         <source>Don&apos;t use remorse when sending commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Ei katumusajastinta komennoissa</translation>
     </message>
     <message>
         <source>If selected, no remorse timer will be used when commands are sent</source>
-        <translation type="unfinished"></translation>
+        <translation>Jos valitset tämän, katumusajastinta ei käytetä komentoja lähetettäessä</translation>
     </message>
     <message>
         <source>Don&apos;t issue success notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Älä ilmoita onnistuneista</translation>
     </message>
     <message>
         <source>If selected, notifications aren&apos;t issued when a value is set</source>
-        <translation type="unfinished"></translation>
+        <translation>Jos valitset tämän, onnistuneesta arvon asettamisesta ei anneta ilmoitusta</translation>
     </message>
 </context>
 <context>
     <name>WidgetList</name>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Asetukset</translation>
     </message>
     <message>
         <source>Refresh</source>
-        <translation type="unfinished"></translation>
+        <translation>Päivitä</translation>
     </message>
     <message>
         <source>Scroll to top</source>
-        <translation type="unfinished"></translation>
+        <translation>Takaisin alkuun</translation>
     </message>
     <message>
         <source>No widgets</source>
-        <translation type="unfinished"></translation>
+        <translation>Ei vimpaimia</translation>
     </message>
     <message>
         <source>Setting value to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Asetetaan arvoksi %1</translation>
     </message>
     <message>
         <source>Widget status successfully set to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vimpain asetettiin onnistuneesti arvoon %1.</translation>
     </message>
     <message>
         <source>Widget status not set to %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vimpainta ei asetettu arvoon %1.</translation>
     </message>
     <message>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Tietoja</translation>
     </message>
     <message>
         <source>Check your settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Tarkista asetuksesi</translation>
     </message>
     <message>
         <source>Group</source>
-        <translation type="unfinished"></translation>
+        <translation>Ryhmä</translation>
     </message>
     <message>
         <source>Widget status set</source>
-        <translation type="unfinished"></translation>
+        <translation>Vimpaimen arvo asetettu</translation>
     </message>
     <message>
         <source>Widget status change failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Vimpaimen arvon muuttaminen epäonnistui</translation>
     </message>
 </context>
 </TS>

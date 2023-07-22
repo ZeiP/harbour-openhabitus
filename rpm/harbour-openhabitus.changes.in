@@ -12,5 +12,11 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
+* Sat Jul 22 2023 Jyri-Petteri Paloposki <jyri-petteri.paloposki@iki.fi> 0.9.1
+- Add support for groups and showing other items' values.
+- Add support for Selection widgets.
+- Add a few settings and an about page.
+- Add Finnish translation.
+
 * Mon Jul 3 2023 Jyri-Petteri Paloposki <jyri-petteri.paloposki@iki.fi> 0.9
 - First version of the application, supports only switches.

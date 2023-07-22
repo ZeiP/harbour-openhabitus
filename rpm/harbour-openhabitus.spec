@@ -1,10 +1,10 @@
 Name:       harbour-openhabitus
 
 Summary:    Openhabitus
-Version:    0.9
+Version:    0.9.1
 Release:    1
-License:    LICENSE
-URL:        http://example.org/
+License:    GPL
+URL:        https://github.com/ZeiP/harbour-openhabitus
 Source0:    %{name}-%{version}.tar.bz2
 Requires:   sailfishsilica-qt5 >= 0.10.9
 BuildRequires:  pkgconfig(sailfishapp) >= 1.0.2
@@ -14,7 +14,7 @@ BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  desktop-file-utils
 
 %description
-Short description of my Sailfish OS Application
+Openhabitus is a client application for controlling an OpenHAB-compatible home automation system
 
 
 %prep

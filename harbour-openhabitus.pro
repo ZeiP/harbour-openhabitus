@@ -19,13 +19,15 @@ SOURCES += src/harbour-openhabitus.cpp
 DISTFILES += qml/harbour-openhabitus.qml \
     qml/common/Settings.qml \
     qml/cover/CoverPage.qml \
+    qml/pages/AboutPage.qml \
     qml/pages/SettingsPage.qml \
     qml/pages/WidgetList.qml \
     rpm/harbour-openhabitus.changes.in \
     rpm/harbour-openhabitus.changes.run.in \
     rpm/harbour-openhabitus.spec \
     translations/*.ts \
-    harbour-openhabitus.desktop
+    harbour-openhabitus.desktop \
+    translations/harbour-openhabitus-fi.ts
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 172x172
 
@@ -37,4 +39,4 @@ CONFIG += sailfishapp_i18n
 # planning to localize your app, remember to comment out the
 # following TRANSLATIONS line. And also do not forget to
 # modify the localized app name in the the .desktop file.
-#TRANSLATIONS += translations/harbour-openhabitus-de.ts
+TRANSLATIONS += translations/harbour-openhabitus-fi.ts

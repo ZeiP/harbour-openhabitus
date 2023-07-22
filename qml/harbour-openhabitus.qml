@@ -19,6 +19,8 @@ ApplicationWindow {
         Notification {}
     }
 
+    property string rootSitemap: "";
+
     function request(url, method, data, callback) {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = (function(mxhr) {
